@@ -29,7 +29,7 @@ open FSharpKoans.Core
 module ``about the stock example`` =
     
     let stockData =
-        [ "Date,Open,High,Low,Close,Volume,Adj Close";
+        [ "Date,      Open, High, Low,  Close,Volume, Adj Close";
           "2012-03-30,32.40,32.41,32.04,32.26,31749400,32.26";
           "2012-03-29,32.06,32.19,31.81,32.12,37038500,32.12";
           "2012-03-28,32.52,32.70,32.04,32.19,41344800,32.19";
@@ -58,8 +58,27 @@ module ``about the stock example`` =
     // tests for yourself along the way. You can also try 
     // using the F# Interactive window to check your progress.
 
+    let splitCommas (x:string) =
+        x.Split([|','|])
+
+    let getVarianceFordate acc elem =
+        let _, currvar = acc
+        let columns = splitCommas elem
+        let d = columns.[0]
+        let o = columns.[1]
+        let c = columns.[4]
+
+        let variance = (System.Double.Parse o - System.Double.Parse c) |> abs
+        if variance > currvar then d, variance else acc
+
+
+    let getCorrectAnswer () =
+        stockData.Tail 
+        |> List.fold getVarianceFordate ("", 0.) 
+        |> fst
+
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let result =  getCorrectAnswer()
         
         AssertEquality "2012-03-13" result
