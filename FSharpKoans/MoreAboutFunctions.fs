@@ -1,6 +1,6 @@
 ﻿namespace FSharpKoans
 open FSharpKoans.Core
-YYYYYY
+
 //---------------------------------------------------------------
 // More About Functions
 //
